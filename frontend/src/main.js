@@ -19,9 +19,9 @@ searchBtn.addEventListener('click', async () => {
     // Make AJAX request to backend API
     const res = await fetch(`http://localhost:3001/api/scrape?keyword=${encodeURIComponent(keyword)}`);
     const data = await res.json();
-    // Check if products exist in response
+    // Custom message for no results (numeric or random string)
     if (!data.products || data.products.length === 0) {
-      resultsDiv.innerHTML = '<p>No products found.</p>';
+      resultsDiv.innerHTML = `<p>No results found for "${keyword}". Please try a different search term.</p>`;
       return;
     }
     // Render product cards
