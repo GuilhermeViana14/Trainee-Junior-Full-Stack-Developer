@@ -31,9 +31,40 @@ app.get("/api/scrape", async (req, res) =>{
             }
         });
 
-        res.json({message: "Amazon page fetched successfully!"})
-    }catch (error){
-        console.error("Error fetching Amazon page:", error);
-        res.status(500).json({error: "Failed to fetch Amazon page"});
+        const dom = new JSDOM(response.data);
+        const document = dom.window.document;
+        const products: any[] = [];
+        
+    document.querySelectorAll("div.s-result-item[data-component-type='s-search-result']").forEach(item => {
+      const title = item.querySelector("h2 span")?.textContent?.trim() || "";
+      const rating = item.querySelector("span.a-icon-alt")?.textContent?.split(" ")[0] || "";
+      const reviews = item.querySelector("span.a-size-base")?.textContent?.replace(/[^\d]/g, "") || "";
+      const image = item.querySelector("img.s-image")?.getAttribute("src") || "";
+      if (title) {
+        products.push({ title, rating, reviews, image });
+      }
+    });
+
+    res.json({ products });
+  } catch (error: any) {
+    const mockProducts = [
+      {
+        title: "Mock Product 1",
+        rating: "4.7",
+        reviews: "1523",
+        image: "https://via.placeholder.com/80"
+    },
+    {
+        title: "Mock Product 2",
+        rating: "4.5",
+        reviews: "987",
+        image: "https://via.placeholder.com/80"
     }
-})
+    ];
+    res.json({ products: mockProducts, mock: true, error: "Mock data due to scraping failure." });
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`Backend running on http://localhost:${PORT}`);
+});
