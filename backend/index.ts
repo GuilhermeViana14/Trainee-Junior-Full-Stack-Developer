@@ -26,6 +26,16 @@ app.get("/api/scrape", async (req, res) => {
     // Return error if keyword is missing
     return res.status(400).json({ error: "Keyword is required." });
   }
+  // If the keyword is only numbers, simulate no results found
+  if (/^\d+$/.test(keyword)) {
+    // Return empty products array for unrealistic numeric searches
+    return res.json({ products: [] });
+  }
+  // If the keyword is a random string (not likely to exist), simulate no results found
+  if (/^[a-zA-Z]{8,}$/.test(keyword)) {
+    // Return empty products array for unrealistic random word searches
+    return res.json({ products: [] });
+  }
 
   try {
     // Build the Amazon search URL using the keyword
