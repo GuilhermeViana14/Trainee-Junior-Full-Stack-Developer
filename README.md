@@ -20,20 +20,48 @@ How to Run
 1. Clone the repository
 git clone https://github.com/GuilhermeViana14/Trainee-Junior-Full-Stack-Developer.git
 
-2. Install Bun (if not installed)
-See Bun installation guide.
 
-3. Backend Setup
+
+## Install Bun
+
+To install Bun, follow the official guide:
+```bash
+# On Windows (PowerShell)
+iwr https://bun.sh/install.ps1 -UseBasicParsing | iex
+# On Linux/macOS
+curl -fsSL https://bun.sh/install | bash
+```
+See [Bun installation guide](https://bun.sh/docs/installation) for more details.
+
+## Install Vite (Frontend)
+
+Vite is already included in this project. If you want to create a new Vite project, use:
+```bash
+npm create vite@latest
+```
+Or, to install Vite globally:
+```bash
+npm install -g create-vite
+```
+
+For this project, just run the frontend setup commands below.
+
+## How to Run
+
+### Backend Setup
+```bash
 cd backend
 bun install
 bun index.ts
-
+```
 The backend will run on http://localhost:3001.
 
-4. Frontend Setup
-cd ../frontend
+### Frontend Setup
+```bash
+cd frontend
 npm install
 npm run dev
+```
 The frontend will run on http://localhost:5173 (or the port shown in your terminal).
 
 
